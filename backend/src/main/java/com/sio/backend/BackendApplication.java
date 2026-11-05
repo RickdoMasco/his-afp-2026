@@ -10,4 +10,9 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
+    // @Bean
+    // JsonMapperBuilderCustomizer strictStringCoercion() {
+    //     return builder -> builder.withCoercionConfig(String.class,
+    //             config -> config.setCoercion(CoercionInputShape.Integer, CoercionAction.Fail));
+    // }
 }

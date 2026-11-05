@@ -1,0 +1,5 @@
+logging:
+  level:
+    com.sio.backend: TRACE
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE

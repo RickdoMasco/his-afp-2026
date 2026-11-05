@@ -11,7 +11,10 @@ import com.sio.backend.entity.Pathologies;
 import com.sio.backend.mapper.PathologiesMapper;
 import com.sio.backend.repository.PathologiesRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class PathologiesService {
 
     private final PathologiesRepository pathologiesRepository;
@@ -23,6 +26,7 @@ public class PathologiesService {
     }
 
     public List<PathologiesDTO> getAllPathologies() {
+        log.debug("Fetching all pathologies from the database");    
         List<Pathologies> pathologiesList = pathologiesRepository.findAll();
         return pathologiesList.stream()
                 .map(pathologiesMapper::toDTO)

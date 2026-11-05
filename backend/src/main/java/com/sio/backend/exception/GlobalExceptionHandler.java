@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
@@ -59,11 +60,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(body);
     }
 
+    @Schema(description = "Dettaglio di una risposta di errore")
     public record ApiError(
-            Instant timestamp,
-            int status,
-            String error,
-            String message,
-            String path) {
+            @Schema(description = "Data e ora dell'errore") Instant timestamp,
+            @Schema(description = "Codice HTTP", example = "400") int status,
+            @Schema(description = "Descrizione dello stato HTTP", example = "Bad Request") String error,
+            @Schema(description = "Dettaglio dell'errore") String message,
+            @Schema(description = "Percorso della richiesta") String path) {
     }
 }
