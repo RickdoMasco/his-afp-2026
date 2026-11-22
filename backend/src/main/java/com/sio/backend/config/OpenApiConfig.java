@@ -9,6 +9,6 @@ import io.swagger.v3.oas.annotations.info.Info;
 @OpenAPIDefinition(info = @Info(
         title = "SIO Backend API",
         version = "v1",
-        description = "API per la gestione delle patologie"))
+        description = "API for managing SIO resources"))
 public class OpenApiConfig {
 }
