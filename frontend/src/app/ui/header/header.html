@@ -1,0 +1,35 @@
+<!---
+  IMG | [strutt+reparto] -- [btn::tema]
+-->
+<header class="flex flex-row items-center shadow-md backdrop-opacity-5">
+  <!-- IMG CONTAINER -->
+  <div>
+    <img
+      class="w-40"
+      alt="logo azienda sanitaria"
+      ngSrc="logo-asuit.svg" height="16" width="16">
+  </div>
+
+  <!-- DIVIDER -->
+  <!--  <div></div>-->
+  <p-divider layout="vertical"/>
+
+  <!-- STRUTTURA + REPARTO -->
+  <div>
+    <!--  REPARTO  -->
+    <h1 class="text-4xl font-bold">{{reparto()}}</h1>
+    <!--  STRUTTURA  -->
+    <p>
+      {{struttura()}}
+    </p>
+  </div>
+  <div>
+    <sio-pathologies-dropdown [(selectedPathology)]="patho" />
+    {{patho() || 'NOPE'}}
+  </div>
+
+  <!-- AZIONI -->
+  <div class="ml-auto mr-4">
+    <sio-toggle-theme/>
+  </div>
+</header>
