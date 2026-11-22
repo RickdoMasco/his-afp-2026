@@ -2,6 +2,10 @@ spring:
   application:
     name: sio-backend
 
+  profiles:
+    active:
+      - dev
+
   datasource:
     # URL di connessione (di default PostgreSQL su docker espone la 5434)
     url: jdbc:postgresql://localhost:5434/sio_db
@@ -22,6 +26,13 @@ spring:
 # Configurazione porta del backend
 server:
   port: 3000
+
+# Configurazione della documentazione interattiva OpenAPI / Swagger UI
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
 
 logging:
   level:
