@@ -1,5 +1,5 @@
 /**
- * OpenAPI definition
+ * SIO Backend API
  *
  * 
  *
@@ -9,8 +9,17 @@
  */
 
 
+/**
+ * Data identifying and describing an arrival mode
+ */
 export interface ArrivalModeDTO { 
+    /**
+     * Unique arrival mode code
+     */
     code: string;
+    /**
+     * Arrival mode description
+     */
     description: string;
 }
 

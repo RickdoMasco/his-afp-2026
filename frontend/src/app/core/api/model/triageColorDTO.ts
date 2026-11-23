@@ -1,5 +1,5 @@
 /**
- * OpenAPI definition
+ * SIO Backend API
  *
  * 
  *
@@ -9,10 +9,25 @@
  */
 
 
+/**
+ * Data identifying and describing a triage color
+ */
 export interface TriageColorDTO { 
+    /**
+     * Unique color code
+     */
     code: string;
+    /**
+     * Display name of the color
+     */
     displayName: string;
+    /**
+     * Color priority: 1 is the most urgent
+     */
     priority: number;
+    /**
+     * Hexadecimal value of the color
+     */
     hexValue: string;
 }
 

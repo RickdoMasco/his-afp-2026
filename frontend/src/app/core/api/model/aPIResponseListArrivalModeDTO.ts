@@ -1,5 +1,5 @@
 /**
- * OpenAPI definition
+ * SIO Backend API
  *
  * 
  *
@@ -10,20 +10,40 @@
 import { ArrivalModeDTO } from './arrivalModeDTO';
 
 
-export interface APIResponseListArrivalModeDTO { 
-    status?: APIResponseListArrivalModeDTO.StatusEnum;
-    message?: string;
-    code?: number;
-    results?: number;
+/**
+ * Standard wrapper for SIO API responses
+ */
+export interface ApiResponseListArrivalModeDTO { 
+    /**
+     * Outcome status of the request (SUCCESS, FAIL, ERROR)
+     */
+    status?: ApiResponseListArrivalModeDTOStatusEnum;
+    /**
+     * HTTP status code associated with the response
+     */
+    statusCode?: number;
+    /**
+     * Timestamp when the response was generated
+     */
+    timestamp?: string;
+    /**
+     * Payload returned by the operation
+     */
     data?: Array<ArrivalModeDTO>;
+    /**
+     * Descriptive message for the outcome or the error
+     */
+    message?: string;
+    /**
+     * Custom internal application error code
+     */
+    errorCode?: string;
 }
-export namespace APIResponseListArrivalModeDTO {
-    export const StatusEnum = {
-        Success: 'SUCCESS',
-        Fail: 'FAIL',
-        Error: 'ERROR',
-    } as const;
-    export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
-}
+export enum ApiResponseListArrivalModeDTOStatusEnum {
+    Success = 'SUCCESS',
+    Error = 'ERROR',
+    Fail = 'FAIL'
+};
+
 
 

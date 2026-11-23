@@ -1,5 +1,5 @@
 /**
- * OpenAPI definition
+ * SIO Backend API
  *
  * 
  *
@@ -10,15 +10,15 @@
 
 
 /**
- * DTO per il trasferimento dei dati riguardanti la Patologia
+ * Data identifying and describing a pathology
  */
 export interface PathologiesDTO { 
     /**
-     * Codice univoco della patologia
+     * Unique pathology code
      */
     code: string;
     /**
-     * Descrizione della patologia
+     * Pathology description
      */
     description: string;
 }

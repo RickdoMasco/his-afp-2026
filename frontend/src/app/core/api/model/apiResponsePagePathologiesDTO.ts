@@ -1,5 +1,5 @@
 /**
- * OpenAPI definition
+ * SIO Backend API
  *
  * 
  *
@@ -10,22 +10,40 @@
 import { PagePathologiesDTO } from './pagePathologiesDTO';
 
 
+/**
+ * Standard wrapper for SIO API responses
+ */
 export interface ApiResponsePagePathologiesDTO { 
-    status?: ApiResponsePagePathologiesDTO.StatusEnum;
+    /**
+     * Outcome status of the request (SUCCESS, FAIL, ERROR)
+     */
+    status?: ApiResponsePagePathologiesDTOStatusEnum;
+    /**
+     * HTTP status code associated with the response
+     */
     statusCode?: number;
+    /**
+     * Timestamp when the response was generated
+     */
     timestamp?: string;
+    /**
+     * Payload returned by the operation
+     */
     data?: PagePathologiesDTO;
+    /**
+     * Descriptive message for the outcome or the error
+     */
     message?: string;
+    /**
+     * Custom internal application error code
+     */
     errorCode?: string;
-    stackTrace?: string;
 }
-export namespace ApiResponsePagePathologiesDTO {
-    export const StatusEnum = {
-        Success: 'SUCCESS',
-        Error: 'ERROR',
-        Fail: 'FAIL',
-    } as const;
-    export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
-}
+export enum ApiResponsePagePathologiesDTOStatusEnum {
+    Success = 'SUCCESS',
+    Error = 'ERROR',
+    Fail = 'FAIL'
+};
+
 
 

@@ -1,13 +1,12 @@
 import { inject, Service, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IApiResponse, IPathology, Page, TApiResponsePathology } from './resources.models';
-import { GestioneRisorseSIOService } from '../api';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { IPathology, TApiResponsePathology } from './resources.models';
+import { SIOResourcesService } from '../api';
 
 @Service()
 export class Resources {
   readonly #http = inject(HttpClient);
-  readonly #gestioneRisorse = inject(GestioneRisorseSIOService);
+  readonly #sioResources = inject(SIOResourcesService);
 
   readonly #listaPatologie = signal<IPathology[]>([]);
   readonly listaPatologie = this.#listaPatologie.asReadonly();
@@ -25,6 +24,13 @@ export class Resources {
   }
 
   public fetchPathoFromApi(){
-    toSignal(this.#gestioneRisorse.getAllPathologies({}));
+    this.#sioResources.getPathologies({}).subscribe({
+      next: (res) => {
+        this.#listaPatologie.set(res.data?.content ?? []);
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
   }
 }

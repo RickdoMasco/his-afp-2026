@@ -1,5 +1,5 @@
 /**
- * OpenAPI definition
+ * SIO Backend API
  *
  * 
  *
@@ -10,20 +10,40 @@
 import { TriageColorDTO } from './triageColorDTO';
 
 
-export interface APIResponseListTriageColorDTO { 
-    status?: APIResponseListTriageColorDTO.StatusEnum;
-    message?: string;
-    code?: number;
-    results?: number;
+/**
+ * Standard wrapper for SIO API responses
+ */
+export interface ApiResponseListTriageColorDTO { 
+    /**
+     * Outcome status of the request (SUCCESS, FAIL, ERROR)
+     */
+    status?: ApiResponseListTriageColorDTOStatusEnum;
+    /**
+     * HTTP status code associated with the response
+     */
+    statusCode?: number;
+    /**
+     * Timestamp when the response was generated
+     */
+    timestamp?: string;
+    /**
+     * Payload returned by the operation
+     */
     data?: Array<TriageColorDTO>;
+    /**
+     * Descriptive message for the outcome or the error
+     */
+    message?: string;
+    /**
+     * Custom internal application error code
+     */
+    errorCode?: string;
 }
-export namespace APIResponseListTriageColorDTO {
-    export const StatusEnum = {
-        Success: 'SUCCESS',
-        Fail: 'FAIL',
-        Error: 'ERROR',
-    } as const;
-    export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
-}
+export enum ApiResponseListTriageColorDTOStatusEnum {
+    Success = 'SUCCESS',
+    Error = 'ERROR',
+    Fail = 'FAIL'
+};
+
 
 
