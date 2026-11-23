@@ -1,7 +1,8 @@
 <p-select
-  [options]="resources.pathologies()"
+  [options]="resources.listaPatologie()"
   [(ngModel)]="selectedPathology"
   optionLabel="description"
+  optionValue="code"
   placeholder="Seleziona un codice patologia"
   class="w-full md:w-56"
 />

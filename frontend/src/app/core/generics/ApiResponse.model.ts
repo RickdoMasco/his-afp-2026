@@ -1,16 +1,10 @@
-export type ApiResponseStatus = 'SUCCESS' | 'FAIL' | 'ERROR';
-
 export interface ApiResponse<T> {
-  status: ApiResponseStatus;
-  statusCode: number;
-  timestamp: string;
-  data?: T;
-  message?: string;
-  errorCode?: string;
+  status: string;
+  data: Page<T>;
 }
 
 export interface Page<T> {
-  content: T[];
+  content: T
   empty: boolean;
   first: boolean;
   last: boolean;

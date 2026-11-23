@@ -34,6 +34,21 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
+# Actuator: espone i dettagli di health (db, diskSpace, ping, ...) e consente
+# al frontend su localhost:4200 di leggerli.
+management:
+  endpoint:
+    health:
+      show-details: always
+
+  endpoints:
+    web:
+      cors:
+        allowed-origins:
+          - http://localhost:4200
+        allowed-methods:
+          - GET
+
 logging:
   level:
     root: INFO
