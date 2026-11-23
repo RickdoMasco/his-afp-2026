@@ -3,10 +3,9 @@ import { Divider } from '@openng/optimus-ui/divider';
 import { ToggleTheme } from '../toggle-theme/toggle-theme';
 import { NgOptimizedImage } from '@angular/common';
 import { Resources } from '../../core/resources/resources';
-import { PathologiesDropdown } from '../resources/pathologies-dropdown/pathologies-dropdown';
 
 @Component({
-  imports: [Divider, ToggleTheme, NgOptimizedImage, PathologiesDropdown],
+  imports: [Divider, ToggleTheme, NgOptimizedImage],
   selector: 'sio-header',
   styleUrl: './header.css',
   templateUrl: './header.html',
