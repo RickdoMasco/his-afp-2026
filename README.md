@@ -140,6 +140,31 @@ Same CRUD, alternative paths:
 | PUT | `/api/pathologies/{code}` |
 | DELETE | `/api/pathologies/{code}` |
 
+### Patients — `/api/patients`
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/api/patients` | All patients, ordered by surname and name |
+| GET | `/api/patients/paginated` | Paginated patients |
+| GET | `/api/patients/{id}` | One patient |
+| GET | `/api/patients/search?cf=RSSMRA80E20H501U` | One patient by fiscal code, case-insensitive |
+| POST | `/api/patients` | Create |
+| PUT | `/api/patients/{id}` | Update |
+| DELETE | `/api/patients/{id}` | Delete |
+
+### Admissions — `/api/admissions`
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/api/admissions` | Open admissions (state other than `DIM`), ordered by triage priority then arrival time |
+| GET | `/api/admissions/{id}` | One admission, with patient and dictionaries resolved |
+| GET | `/api/admissions/braccialetto/{code}` | One admission by wristband code |
+| POST | `/api/admissions` | Accept a patient: upserts the patient record, then opens an admission with state `ATT` |
+| PATCH | `/api/admissions/{id}/stato?stato=VIS` | Change the clinical state; `DIM` stamps the discharge timestamp |
+
+The clinical state machine is `ATT -> VIS -> OBI | RIC -> DIM`. Accepting a patient that already
+has an open admission returns HTTP 400.
+
 ### Pagination
 
 Paginated endpoints accept Spring's standard parameters:
