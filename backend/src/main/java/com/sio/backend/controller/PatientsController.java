@@ -1,9 +1,11 @@
 package com.sio.backend.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sio.backend.dto.PatientsDTO;
+import com.sio.backend.entity.PatientSex;
 import com.sio.backend.generics.ApiResponse;
 import com.sio.backend.service.PatientsService;
 
@@ -73,6 +76,21 @@ public class PatientsController {
     public ApiResponse<PatientsDTO> getPatientByFiscalCode(
             @Parameter(description = "Patient fiscal code", example = "RSSMRA80E20H501U") @RequestParam String cf) {
         return ApiResponse.success(patientsService.getPatientByFiscalCode(cf));
+    }
+
+    @GetMapping("/search/nominativo")
+    @Operation(summary = "Search patients by name", description = "Returns the patients matching name, surname, date of birth and sex (name and surname case-insensitive).")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Matching patients returned (possibly empty)"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid date or sex value")
+    })
+    public ApiResponse<List<PatientsDTO>> getPatientsByNominativo(
+            @Parameter(description = "Patient first name", example = "Mario") @RequestParam String nome,
+            @Parameter(description = "Patient surname", example = "Rossi") @RequestParam String cognome,
+            @Parameter(description = "Date of birth (ISO yyyy-MM-dd)", example = "1980-05-20")
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataNascita,
+            @Parameter(description = "Patient biological sex", example = "M") @RequestParam PatientSex sex) {
+        return ApiResponse.success(patientsService.getPatientsByNominativo(nome, cognome, dataNascita, sex));
     }
 
     @PostMapping

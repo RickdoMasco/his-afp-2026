@@ -14,6 +14,7 @@ import com.sio.backend.entity.ArrivalMode;
 import com.sio.backend.mapper.ArrivalModeMapper;
 import com.sio.backend.repository.ArrivalModeRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -73,5 +74,16 @@ public class ArrivalModeService {
     @Transactional
     public void deleteArrivalMode(String code) {
         arrivalModeRepository.deleteById(code);
+    }
+
+    /**
+     * Returns the ArrivalMode entity for the given code, normalized to uppercase.
+     * Used by other services that need the JPA entity rather than the DTO.
+     *
+     * @throws EntityNotFoundException if no entity exists with that code
+     */
+    public ArrivalMode getEntityByCode(String code) {
+        return arrivalModeRepository.findById(code.toUpperCase().trim())
+                .orElseThrow(() -> new EntityNotFoundException("Arrival mode not found with code: " + code));
     }
 }

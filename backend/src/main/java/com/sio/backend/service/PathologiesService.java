@@ -14,6 +14,7 @@ import com.sio.backend.entity.Pathologies;
 import com.sio.backend.mapper.PathologiesMapper;
 import com.sio.backend.repository.PathologiesRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -76,5 +77,16 @@ public class PathologiesService {
         existingPathology.setDescription(pathologyDTO.description());
 
         pathologiesRepository.save(existingPathology);
+    }
+
+    /**
+     * Returns the Pathologies entity for the given code, normalized to uppercase.
+     * Used by other services that need the JPA entity rather than the DTO.
+     *
+     * @throws EntityNotFoundException if no entity exists with that code
+     */
+    public Pathologies getEntityByCode(String code) {
+        return pathologiesRepository.findById(code.toUpperCase().trim())
+                .orElseThrow(() -> new EntityNotFoundException("Pathology not found with code: " + code));
     }
 }

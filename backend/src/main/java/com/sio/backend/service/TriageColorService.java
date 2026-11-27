@@ -14,6 +14,7 @@ import com.sio.backend.entity.TriageColor;
 import com.sio.backend.mapper.TriageColorMapper;
 import com.sio.backend.repository.TriageColorRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -75,5 +76,16 @@ public class TriageColorService {
     @Transactional
     public void deleteTriageColor(String code) {
         triageColorRepository.deleteById(code);
+    }
+
+    /**
+     * Returns the TriageColor entity for the given code, normalized to uppercase.
+     * Used by other services that need the JPA entity rather than the DTO.
+     *
+     * @throws EntityNotFoundException if no entity exists with that code
+     */
+    public TriageColor getEntityByCode(String code) {
+        return triageColorRepository.findById(code.toUpperCase().trim())
+                .orElseThrow(() -> new EntityNotFoundException("Triage color not found with code: " + code));
     }
 }

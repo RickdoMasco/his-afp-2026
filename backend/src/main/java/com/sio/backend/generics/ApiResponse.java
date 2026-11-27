@@ -44,6 +44,9 @@ public class ApiResponse<T> {
     @Schema(description = "Custom internal application error code", example = "THX403")
     private String errorCode;
 
+    @Schema(description = "Error stack trace (only meant for debug/development environments)")
+    private String stackTrace;
+
     public static <T> ApiResponse<T> success(T data) {
         return ApiResponse.<T>builder()
                 .status(ApiResponseStatus.SUCCESS)
@@ -60,6 +63,17 @@ public class ApiResponse<T> {
                 .errorCode(errorCode)
                 .timestamp(Instant.now())
                 .message(message)
+                .build();
+    }
+
+    public static <T> ApiResponse<T> error(String message, Integer statusCode, String errorCode, String stackTrace) {
+        return ApiResponse.<T>builder()
+                .status(ApiResponseStatus.ERROR)
+                .statusCode(statusCode)
+                .errorCode(errorCode)
+                .timestamp(Instant.now())
+                .message(message)
+                .stackTrace(stackTrace)
                 .build();
     }
 

@@ -20,10 +20,7 @@ import com.sio.backend.entity.TriageColor;
 import com.sio.backend.mapper.AdmissionMapper;
 import com.sio.backend.mapper.PatientsMapper;
 import com.sio.backend.repository.AdmissionRepository;
-import com.sio.backend.repository.ArrivalModeRepository;
-import com.sio.backend.repository.PathologiesRepository;
 import com.sio.backend.repository.PatientsRepository;
-import com.sio.backend.repository.TriageColorRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -35,25 +32,25 @@ public class AdmissionService {
 
     private final AdmissionRepository admissionRepository;
     private final PatientsRepository patientsRepository;
-    private final PathologiesRepository pathologiesRepository;
-    private final TriageColorRepository triageColorRepository;
-    private final ArrivalModeRepository arrivalModeRepository;
+    private final PathologiesService pathologiesService;
+    private final TriageColorService triageColorService;
+    private final ArrivalModeService arrivalModeService;
     private final PatientsMapper patientsMapper;
     private final AdmissionMapper admissionMapper;
 
     public AdmissionService(
             AdmissionRepository admissionRepository,
             PatientsRepository patientsRepository,
-            PathologiesRepository pathologiesRepository,
-            TriageColorRepository triageColorRepository,
-            ArrivalModeRepository arrivalModeRepository,
+            PathologiesService pathologiesService,
+            TriageColorService triageColorService,
+            ArrivalModeService arrivalModeService,
             PatientsMapper patientsMapper,
             AdmissionMapper admissionMapper) {
         this.admissionRepository = admissionRepository;
         this.patientsRepository = patientsRepository;
-        this.pathologiesRepository = pathologiesRepository;
-        this.triageColorRepository = triageColorRepository;
-        this.arrivalModeRepository = arrivalModeRepository;
+        this.pathologiesService = pathologiesService;
+        this.triageColorService = triageColorService;
+        this.arrivalModeService = arrivalModeService;
         this.patientsMapper = patientsMapper;
         this.admissionMapper = admissionMapper;
     }
@@ -91,17 +88,9 @@ public class AdmissionService {
                     "Patient (" + patient.getCodiceFiscale() + ") already has an open admission");
         }
 
-        Pathologies patologia = pathologiesRepository.findById(request.patologiaCode().toUpperCase().trim())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Pathology not found with code: " + request.patologiaCode()));
-
-        TriageColor codiceColore = triageColorRepository.findById(request.codiceColore().toUpperCase().trim())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Triage color not found with code: " + request.codiceColore()));
-
-        ArrivalMode modalitaArrivo = arrivalModeRepository.findById(request.modalitaArrivoCode().toUpperCase().trim())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Arrival mode not found with code: " + request.modalitaArrivoCode()));
+        Pathologies patologia = pathologiesService.getEntityByCode(request.patologiaCode());
+        TriageColor codiceColore = triageColorService.getEntityByCode(request.codiceColore());
+        ArrivalMode modalitaArrivo = arrivalModeService.getEntityByCode(request.modalitaArrivoCode());
 
         Admission admission = new Admission();
         admission.setPatient(patient);

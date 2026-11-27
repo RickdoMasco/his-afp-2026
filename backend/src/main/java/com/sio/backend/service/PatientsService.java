@@ -1,5 +1,6 @@
 package com.sio.backend.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sio.backend.dto.PatientsDTO;
+import com.sio.backend.entity.PatientSex;
 import com.sio.backend.entity.Patients;
 import com.sio.backend.mapper.PatientsMapper;
 import com.sio.backend.repository.PatientsRepository;
@@ -54,6 +56,15 @@ public class PatientsService {
         Patients patient = patientsRepository.findByCodiceFiscaleIgnoreCase(codiceFiscale.trim())
                 .orElseThrow(() -> new NoSuchElementException("Patient not found with fiscal code: " + codiceFiscale));
         return patientsMapper.toDTO(patient);
+    }
+
+    public List<PatientsDTO> getPatientsByNominativo(String nome, String cognome, LocalDate dataNascita, PatientSex sex) {
+        log.debug("Searching patients by name: {} {}, born {}, sex {}", nome, cognome, dataNascita, sex);
+        return patientsRepository
+                .findByNomeIgnoreCaseAndCognomeIgnoreCaseAndDataNascitaAndSex(nome.trim(), cognome.trim(), dataNascita, sex)
+                .stream()
+                .map(patientsMapper::toDTO)
+                .toList();
     }
 
     @Transactional

@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.sio.backend.generics.ApiResponse;
 
@@ -109,6 +110,28 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TransactionSystemException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse<Void> handleTransaction(TransactionSystemException ex) {
+        return ApiResponse.fail(
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST.value());
+    }
+
+    /**
+     * Request parameter or path variable of the wrong type (e.g. bad date or enum value). HTTP 400.
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<Void> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        return ApiResponse.fail(
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST.value());
+    }
+
+    /**
+     * Operation not supported. HTTP 400.
+     */
+    @ExceptionHandler(UnsupportedOperationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<Void> handleUnsupportedOperation(UnsupportedOperationException ex) {
         return ApiResponse.fail(
                 ex.getMessage(),
                 HttpStatus.BAD_REQUEST.value());

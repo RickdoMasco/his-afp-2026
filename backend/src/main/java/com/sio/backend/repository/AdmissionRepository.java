@@ -19,6 +19,9 @@ public interface AdmissionRepository extends JpaRepository<Admission, Integer> {
     List<Admission> findByStatoNotOrderByCodiceColorePriorityAscDataOraIngressoAsc(AdmissionStatus stato);
 
     @EntityGraph(attributePaths = { "patient", "patologia", "codiceColore", "modalitaArrivo" })
+    List<Admission> findAllByOrderByDataOraIngressoDesc();
+
+    @EntityGraph(attributePaths = { "patient", "patologia", "codiceColore", "modalitaArrivo" })
     Optional<Admission> findById(Integer id);
 
     @EntityGraph(attributePaths = { "patient", "patologia", "codiceColore", "modalitaArrivo" })
